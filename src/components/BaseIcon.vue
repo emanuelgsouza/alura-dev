@@ -25,11 +25,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.base-icon-button {
-  appearance: none;
-  background-color: var(--dark-blue);
-  border: none;
-  border-radius: var(--border-radius);
+.base-icon {
   color: var(--white);
+  width: 2rem;
 }
 </style>

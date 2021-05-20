@@ -7,7 +7,7 @@
     <div class="base-header__right">
       <BaseProfile />
 
-      <BaseIconButton class="menu-button" icon="menu" />
+      <BaseMenuButton class="menu-button" />
     </div>
   </header>
 </template>
@@ -18,7 +18,7 @@ import { defineComponent } from "vue";
 import BaseLogo from "@/components/BaseLogo";
 import BaseSearch from "@/components/BaseSearch";
 import BaseProfile from "@/components/BaseProfile";
-import BaseIconButton from "@/components/BaseIconButton";
+import BaseMenuButton from "@/components/BaseMenuButton";
 
 export default defineComponent({
   name: "BaseHeader",
@@ -27,7 +27,7 @@ export default defineComponent({
     BaseLogo,
     BaseSearch,
     BaseProfile,
-    BaseIconButton,
+    BaseMenuButton,
   },
 });
 </script>
@@ -37,8 +37,39 @@ export default defineComponent({
   align-items: center;
   display: flex;
 
+  .base-logo {
+    padding-right: 3.2rem;
+  }
+
   .menu-button {
     display: none;
+  }
+
+  @media screen and (min-width: $max-mobile-breakpoint + 1px) {
+    .base-header__right {
+      padding-left: 3.2rem;
+    }
+  }
+
+  @media screen and (min-width: $max-tablet-breakpoint + 1px) {
+    .base-logo {
+      flex: 0 0 100%;
+      max-width: var(--aside-width);
+    }
+  }
+
+  @media screen and (max-width: $max-tablet-breakpoint) {
+    .base-logo {
+      max-width: 100%;
+    }
+
+    .menu-button {
+      display: flex;
+    }
+
+    .base-profile {
+      display: none;
+    }
   }
 }
 </style>

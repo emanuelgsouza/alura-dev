@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <button class="base-profile">
-      <img
-        class="base-profile__image"
-        :src="user.profile"
-        :alt="`Foto de perfil the ${user.name}`"
-      />
+  <button class="base-profile">
+    <img
+      class="base-profile__image"
+      :src="user.profile"
+      :alt="`Foto de perfil the ${user.name}`"
+    />
 
-      <span class="base-profile__name"> {{ user.name }} </span>
-    </button>
-  </div>
+    <span class="base-profile__name"> {{ user.name }} </span>
+  </button>
 </template>
 
 <script>

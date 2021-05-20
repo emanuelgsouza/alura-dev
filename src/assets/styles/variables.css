@@ -6,6 +6,12 @@
   --white: #FFFFFF;
   --border-radius: 8px;
 
+  --inner-container: 75.2rem;
+  --aside-width: 32.8rem;
+
   /* breakpoints */
   --tablet-breakpoint: 768px;
+
+  /* fonts */
+  --font-family: 'Inter', "sans-serif";
 }
