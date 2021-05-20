@@ -31,16 +31,11 @@ export default defineComponent({
   .main {
     display: flex;
     padding: 4rem 0;
+    position: relative;
 
     .base-aside-menu {
       flex: 0 0 100%;
       max-width: var(--aside-width);
-    }
-  }
-
-  @media screen and (max-width: $max-tablet-breakpoint) {
-    .base-aside-menu {
-      display: none;
     }
   }
 }

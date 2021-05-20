@@ -19,7 +19,7 @@ export default defineComponent({
   setup() {
     const user = ref({
       name: "Emanuel",
-      profile: "https://via.placeholder.com/50",
+      profile: "https://avatars.githubusercontent.com/u/20342656",
     });
 
     return {
@@ -53,6 +53,14 @@ export default defineComponent({
 
   &:hover {
     background-color: rgba(#ffffff, 0.08);
+  }
+
+  .base-aside-menu & {
+    background-color: transparent;
+
+    &:hover {
+      background-color: rgba(#ffffff, 0.08);
+    }
   }
 }
 </style>

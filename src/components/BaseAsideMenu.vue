@@ -1,5 +1,8 @@
 <template>
-  <aside class="base-aside-menu">
+  <aside
+    class="base-aside-menu"
+    :class="{ 'base-aside-menu--active': isSidebarOpen }"
+  >
     <p class="base-aside-menu__title">Menu</p>
 
     <ul>
@@ -31,16 +34,26 @@
         </router-link>
       </li>
     </ul>
+
+    <hr />
+
+    <BaseProfile />
   </aside>
 </template>
 
 <script>
 import BaseIcon from "@/components/BaseIcon";
+import BaseProfile from "@/components/BaseProfile";
+import { mapGetters } from "vuex";
 
 export default {
   name: "BaseAsideMenu",
 
-  components: { BaseIcon },
+  components: { BaseIcon, BaseProfile },
+
+  computed: {
+    ...mapGetters(["isSidebarOpen"]),
+  },
 };
 </script>
 
@@ -85,6 +98,38 @@ export default {
 
   &__item--active &__icon {
     background-color: rgba(var(--menu-color), 1);
+  }
+
+  .base-profile,
+  hr {
+    display: none;
+  }
+
+  @media screen and (max-width: $max-tablet-breakpoint) {
+    .base-profile,
+    hr {
+      display: flex;
+    }
+
+    hr {
+      margin: 2.4rem 0;
+    }
+
+    & {
+      background-color: #2d415b;
+      padding: 2.4rem;
+      border-radius: var(--border-radius);
+      position: absolute;
+      height: 100%;
+      right: 0;
+      top: 4rem;
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(130%);
+    }
+
+    &--active {
+      transform: translateX(0);
+    }
   }
 }
 </style>
