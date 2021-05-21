@@ -1,17 +1,158 @@
 <template>
-  <div class="editor-view">Editor Page</div>
+  <div class="editor-view">
+    <div class="editor-view__code" :style="{ backgroundColor: model.color }">
+      <div class="editor-view__dots">
+        <span class="editor-view__dot editor-view__dot--red"></span>
+        <span class="editor-view__dot editor-view__dot--yellow"></span>
+        <span class="editor-view__dot editor-view__dot--green"></span>
+      </div>
+      <textarea v-model="model.code"></textarea>
+    </div>
+
+    <div class="editor-view__form">
+      <p class="editor-view__form-title">Seu projeto</p>
+
+      <input class="input" type="text" placeholder="Nome do seu projeto" />
+
+      <textarea class="textarea" placeholder="Descrição do seu projeto" />
+
+      <p class="editor-view__form-title">Personalização</p>
+
+      <BaseSelect v-model:value="model.language" :options="languageOptions" />
+
+      <BaseInputColor v-model:color="model.color" />
+
+      <button class="button">Salvar projeto</button>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+import BaseInputColor from "@/components/BaseInputColor.vue";
+import BaseSelect from "@/components/BaseSelect.vue";
+
+export default defineComponent({
   name: "EditorView",
-};
+
+  components: { BaseInputColor, BaseSelect },
+
+  data: () => ({
+    model: {
+      code: `
+      const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
+
+      const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
+
+      const unfold = (f, seed) => {
+        const go = (f, seed, acc) => {
+          const res = f(seed)
+          return res ? go(f, res[1], acc.concat([res[0]])) : acc
+        }
+        return go(f, seed, [])
+      }`,
+      color: "#6bd1ff",
+    },
+
+    languageOptions: [
+      {
+        label: "CSS",
+        value: "css",
+      },
+      {
+        label: "JavaScript",
+        value: "js",
+      },
+      {
+        label: "HTML",
+        value: "html",
+      },
+    ],
+  }),
+});
 </script>
 
 <style lang="scss">
 .editor-view {
-  background-color: var(--white);
-  height: 400px;
+  display: flex;
   width: 100%;
+
+  &__code {
+    background-color: #6bd1ff;
+    border-radius: var(--border-radius);
+    width: 100%;
+    min-height: 366px;
+    max-width: 752px;
+    padding: 3.2rem;
+    position: relative;
+
+    textarea {
+      background-color: black;
+      display: block;
+      color: var(--white);
+      padding: 5.6rem 1.6rem 1.6rem;
+      height: 100%;
+      border: none;
+      border-radius: var(--border-radius);
+      width: 100%;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    position: absolute;
+    top: 4.8rem;
+    left: 4.8rem;
+  }
+
+  &__dot {
+    border-radius: 100%;
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-left: 8px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &--red {
+      background-color: #ff5f56;
+    }
+
+    &--yellow {
+      background-color: #ffbd2e;
+    }
+
+    &--green {
+      background-color: #27c93f;
+    }
+  }
+
+  &__form {
+    display: flex;
+    color: var(--white);
+    flex: 1;
+    flex-direction: column;
+    padding: 0 0 0 4rem;
+
+    &-title {
+      font-size: 1.2rem;
+      line-height: 1.8rem;
+      margin-bottom: 1.6rem;
+      text-transform: uppercase;
+
+      &:not(:first-child) {
+        margin-top: 4rem;
+      }
+    }
+
+    .input {
+      margin-bottom: 1.6rem;
+    }
+
+    .base-input-color {
+      margin: 1.6rem 0;
+    }
+  }
 }
 </style>

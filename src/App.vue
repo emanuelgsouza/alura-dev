@@ -24,7 +24,8 @@ export default defineComponent({
 
 <style lang="scss">
 #app {
-  background-color: var(--dark-blue);
+  max-width: 1440px;
+  margin: 0 auto;
   min-height: 100vh;
   padding: 3.2rem;
 

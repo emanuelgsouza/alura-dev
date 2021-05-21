@@ -1,0 +1,74 @@
+body {
+  background-color: var(--dark-blue);
+}
+
+.input,
+.textarea {
+  background-color: rgba(255, 255, 255, 0.16);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  padding: 1.6rem 1.4rem;
+  width: 100%;
+}
+
+.input:hover,
+.textarea:hover {
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Link: https://css-tricks.com/almanac/selectors/p/placeholder/ */
+.input::-webkit-input-placeholder,
+.textarea::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: var(--white);
+}
+
+.input::-moz-placeholder,
+.textarea::-moz-placeholder {
+  /* Firefox 19+ */
+  color: var(--white);
+}
+
+.input:-ms-input-placeholder,
+.textarea:-ms-input-placeholder {
+  /* IE 10+ */
+  color: var(--white);
+}
+
+.input:-moz-placeholder,
+.textarea:-moz-placeholder {
+  /* Firefox 18- */
+  color: var(--white);
+}
+
+.button {
+  padding: 1.6rem;
+  background-color: #5081FB;
+  border-radius: var(--border-radius);
+  color: var(--dark-blue);
+  font-size: 1.6rem;
+  position: relative;
+}
+
+.button:hover {
+  background-color: var(--blue-200);
+}
+
+.button:active {
+  outline: 4px solid rgba(80, 129, 251, 0.72);
+}
+
+.button:focus {
+  background-color: var(--blue-100);
+}
+
+.input-color {
+  border: none;
+  border: 1px solid var(--white);
+  border-radius: var(--border-radius);
+  padding: 8px;
+  width: 100%;
+}
