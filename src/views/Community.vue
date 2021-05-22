@@ -1,17 +1,81 @@
 <template>
-  <div class="community-view">Community Page</div>
+  <div class="community-view">
+    <BaseProjectCard
+      v-for="(project, key) in projects"
+      :key="key"
+      :project="project"
+    />
+  </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+import BaseProjectCard from "@/components/BaseProjectCard.vue";
+
+const testCode = `
+      const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
+
+      const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
+
+      const unfold = (f, seed) => {
+        const go = (f, seed, acc) => {
+          const res = f(seed)
+          return res ? go(f, res[1], acc.concat([res[0]])) : acc
+        }
+        return go(f, seed, [])
+      }`;
+
+export default defineComponent({
   name: "CommunityView",
-};
+
+  components: { BaseProjectCard },
+
+  data: () => ({
+    projects: [
+      {
+        name: "Titulo do projeto",
+        description: "Essa é a descrição do meu projeto.",
+        language: "css",
+        code: testCode,
+        color: "#9AFF6B",
+      },
+      {
+        name: "Titulo do projeto",
+        description: "Essa é a descrição do meu projeto.",
+        language: "css",
+        code: testCode,
+        color: "#6B83FF",
+      },
+      {
+        name: "Titulo do projeto",
+        description: "Essa é a descrição do meu projeto.",
+        language: "css",
+        code: testCode,
+        color: "#FFC46B",
+      },
+      {
+        name: "Titulo do projeto",
+        description: "Essa é a descrição do meu projeto.",
+        language: "css",
+        code: testCode,
+        color: "#FF6BCD",
+      },
+    ],
+  }),
+});
 </script>
 
 <style lang="scss">
 .community-view {
-  background-color: var(--white);
-  height: 400px;
   width: 100%;
+  display: grid;
+  grid-gap: 2.4rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media screen and (max-width: $max-tablet-breakpoint) {
+    & {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
 }
 </style>

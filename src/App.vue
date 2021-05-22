@@ -63,5 +63,11 @@ export default defineComponent({
       visibility: inherit;
     }
   }
+
+  @media screen and (max-width: $max-tablet-breakpoint) {
+    & {
+      padding: 3.2rem 1.6rem;
+    }
+  }
 }
 </style>
