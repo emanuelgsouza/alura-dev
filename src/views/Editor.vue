@@ -12,15 +12,26 @@
     <div class="editor-view__form">
       <p class="editor-view__form-title">Seu projeto</p>
 
-      <input class="input" type="text" placeholder="Nome do seu projeto" />
+      <input
+        v-model="model.name"
+        class="input"
+        type="text"
+        placeholder="Nome do seu projeto"
+      />
 
-      <textarea class="textarea" placeholder="Descrição do seu projeto" />
+      <textarea
+        v-model="model.description"
+        class="textarea"
+        placeholder="Descrição do seu projeto"
+      />
 
       <p class="editor-view__form-title">Personalização</p>
 
-      <BaseSelect v-model:value="model.language" :options="languageOptions" />
+      <div class="editor-view__section">
+        <BaseSelect v-model:value="model.language" :options="languageOptions" />
 
-      <BaseInputColor v-model:color="model.color" />
+        <BaseInputColor v-model:color="model.color" />
+      </div>
 
       <button class="button">Salvar projeto</button>
     </div>
@@ -52,6 +63,9 @@ export default defineComponent({
         return go(f, seed, [])
       }`,
       color: "#6bd1ff",
+      name: null,
+      description: null,
+      language: "css",
     },
 
     languageOptions: [
@@ -152,6 +166,50 @@ export default defineComponent({
 
     .base-input-color {
       margin: 1.6rem 0;
+    }
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: $max-tablet-breakpoint) {
+  .editor-view {
+    flex-direction: column;
+
+    &__code {
+      margin-bottom: 4rem;
+      max-width: 100%;
+    }
+
+    &__form {
+      padding-left: 0;
+    }
+
+    &__section {
+      flex-direction: row;
+      margin-bottom: 1.6rem;
+
+      .base-select,
+      .base-input-color {
+        flex: 1;
+      }
+
+      .base-input-color {
+        margin: 0 0 0 1.6rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $max-mobile-breakpoint) {
+  .editor-view__section {
+    flex-direction: column;
+
+    .base-input-color {
+      margin: 1.6rem 0 0;
     }
   }
 }

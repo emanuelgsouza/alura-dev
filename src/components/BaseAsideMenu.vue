@@ -109,6 +109,7 @@ export default {
     .base-profile,
     hr {
       display: flex;
+      width: 100%;
     }
 
     hr {
@@ -121,10 +122,12 @@ export default {
       border-radius: var(--border-radius);
       position: absolute;
       height: 100%;
+      max-height: 100vh;
       right: 0;
-      top: 4rem;
+      top: 0;
       transition: transform 0.3s ease-in-out;
       transform: translateX(130%);
+      z-index: 5;
     }
 
     &--active {
