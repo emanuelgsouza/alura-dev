@@ -1,6 +1,10 @@
 <template>
   <div class="editor-view">
-    <BaseCodeView :background-color="model.color" v-model:code="model.code" />
+    <div class="editor-view__code">
+      <BaseCodeView :background-color="model.color" v-model:code="model.code" />
+
+      <button class="button button--outline">Visualizar com o highlight</button>
+    </div>
 
     <div class="editor-view__form">
       <p class="editor-view__form-title">Seu projeto</p>
@@ -84,6 +88,16 @@ export default defineComponent({
 .editor-view {
   display: flex;
   width: 100%;
+
+  &__code {
+    width: 100%;
+    max-width: 752px;
+
+    .button {
+      width: 100%;
+      margin-top: 3.2rem;
+    }
+  }
 
   &__form {
     display: flex;

@@ -65,6 +65,24 @@ body {
   background-color: var(--blue-100);
 }
 
+.button--outline {
+  background-color: rgba(80, 129, 251, 0.08);
+  color: var(--white);
+}
+
+.button--outline:hover {
+  background: rgba(80, 129, 251, 0.16);
+}
+
+.button--outline:active {
+  background: rgba(80, 129, 251, 0.16);
+  outline: 4px solid rgba(80, 129, 251, 0.24);
+}
+
+.button--outline:focus {
+  background-color: rgba(80, 129, 251, 0.24);
+}
+
 .input-color {
   border: none;
   border: 1px solid var(--white);
