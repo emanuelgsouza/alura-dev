@@ -7,5 +7,6 @@ import store from "./store";
 import "@/assets/styles/variables.css";
 import "@/assets/styles/minireset.css";
 import "@/assets/styles/general.css";
+import "@/assets/styles/dracula-theme.css";
 
 createApp(App).use(store).use(router).mount("#app");
