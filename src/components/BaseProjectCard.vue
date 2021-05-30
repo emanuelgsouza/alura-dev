@@ -3,7 +3,8 @@
     <BaseCodeView
       :background-color="project.color"
       :code="project.code"
-      readonly
+      :language="project.language"
+      highlight
     />
 
     <div class="base-project-card__content">
@@ -36,6 +37,8 @@ export default defineComponent({
 
 <style lang="scss">
 .base-project-card {
+  max-width: 52rem;
+
   .base-code-view {
     max-width: 100%;
   }

@@ -5,7 +5,12 @@
       <span class="base-code-view__dot base-code-view__dot--yellow"></span>
       <span class="base-code-view__dot base-code-view__dot--green"></span>
     </div>
+    <pre v-show="highlight">
+      <code :class="computedClass" v-html="htmlCode" />
+    </pre>
+
     <textarea
+      v-show="!highlight"
       :value="code"
       :readonly="readonly"
       @input="handleInput"
@@ -13,10 +18,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script>
+import hljs from "highlight.js";
 
-export default defineComponent({
+export default {
   name: "BaseCodeView",
 
   props: {
@@ -30,17 +35,50 @@ export default defineComponent({
       default: "",
     },
 
+    highlight: Boolean,
+
+    language: {
+      type: String,
+      defauult: "css",
+    },
+
     readonly: Boolean,
   },
 
   emits: ["update:code"],
 
-  methods: {
-    handleInput(value: string) {
-      this.$emit("update:code", value);
+  computed: {
+    computedClass() {
+      return [this.language || ""];
     },
   },
-});
+
+  data: () => ({
+    htmlCode: "",
+  }),
+
+  methods: {
+    handleInput(event) {
+      this.$emit("update:code", event.target.value);
+    },
+  },
+
+  watch: {
+    highlight: {
+      handler(value) {
+        this.$nextTick(() => {
+          if (value) {
+            const result = hljs.highlight(this.code, {
+              language: this.language,
+            });
+            this.htmlCode = result.value || "";
+          }
+        });
+      },
+      immediate: true,
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -54,7 +92,8 @@ export default defineComponent({
   position: relative;
   display: flex;
 
-  textarea {
+  textarea,
+  pre {
     flex: 1;
     background-color: black;
     display: block;
@@ -63,6 +102,7 @@ export default defineComponent({
     border: none;
     border-radius: var(--border-radius);
     width: 100%;
+    font-size: 1.4rem;
   }
 
   &__dots {

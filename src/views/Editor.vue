@@ -1,9 +1,16 @@
 <template>
   <div class="editor-view">
     <div class="editor-view__code">
-      <BaseCodeView :background-color="model.color" v-model:code="model.code" />
+      <BaseCodeView
+        :background-color="model.color"
+        v-model:code="model.code"
+        :language="computedLanguage"
+        :highlight="enableHighlight"
+      />
 
-      <button class="button button--outline">Visualizar com o highlight</button>
+      <button class="button button--outline" @click="handleToggleHighlight">
+        Visualizar com o highlight
+      </button>
     </div>
 
     <div class="editor-view__form">
@@ -47,40 +54,48 @@ export default defineComponent({
   components: { BaseInputColor, BaseSelect, BaseCodeView },
 
   data: () => ({
+    enableHighlight: false,
+
     model: {
-      code: `
-      const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
-
-      const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
-
-      const unfold = (f, seed) => {
-        const go = (f, seed, acc) => {
-          const res = f(seed)
-          return res ? go(f, res[1], acc.concat([res[0]])) : acc
-        }
-        return go(f, seed, [])
-      }`,
+      code: `// Type a text`,
       color: "#6bd1ff",
       name: null,
       description: null,
-      language: "css",
+      language: "javascript",
     },
 
     languageOptions: [
       {
         label: "CSS",
         value: "css",
+        language: "css",
       },
       {
         label: "JavaScript",
         value: "js",
+        language: "javascript",
       },
       {
         label: "HTML",
         value: "html",
+        language: "html",
       },
     ],
   }),
+
+  computed: {
+    computedLanguage() {
+      return this.languageOptions.find(
+        (languageOption) => languageOption.language === this.model.language
+      ).language;
+    },
+  },
+
+  methods: {
+    handleToggleHighlight() {
+      this.enableHighlight = !this.enableHighlight;
+    },
+  },
 });
 </script>
 
