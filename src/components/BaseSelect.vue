@@ -1,7 +1,12 @@
 <template>
   <div class="base-select">
     <select class="select" @change="handleChange">
-      <option v-for="(option, key) in options" :value="option.value" :key="key">
+      <option
+        v-for="(option, key) in options"
+        :value="option.value"
+        :key="key"
+        :selected="value === option.value"
+      >
         {{ option.label }}
       </option>
     </select>

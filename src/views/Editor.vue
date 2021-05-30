@@ -72,7 +72,7 @@ export default defineComponent({
       },
       {
         label: "JavaScript",
-        value: "js",
+        value: "javascript",
         language: "javascript",
       },
       {
