@@ -1,5 +1,5 @@
 <template>
-  <div class="base-search">
+  <div class="base-search" :class="{ 'base-search--absolute': active }">
     <input
       class="base-search__input input"
       type="search"
@@ -8,14 +8,18 @@
       placeholder="Busque por algo"
     />
 
-    <button class="base-search__button">
+    <button class="base-search__button-open" @click="active = true">
       <BaseIcon icon="search" />
+    </button>
+
+    <button class="base-search__button-close" @click="active = false">
+      <BaseIcon icon="close" />
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 import BaseIcon from "@/components/BaseIcon.vue";
 
@@ -26,18 +30,23 @@ export default defineComponent({
     BaseIcon,
   },
 
-  setup() {
-    const search = ref("");
+  data: () => ({
+    search: "",
+    active: false,
+  }),
 
-    return {
-      search,
-    };
+  methods: {
+    handleToggleActiveMenu() {
+      this.active = !this.active;
+    },
   },
 });
 </script>
 
 <style lang="scss">
 .base-search {
+  align-items: center;
+  background-color: var(--dark-blue);
   display: flex;
   flex: 1;
   justify-content: flex-start;
@@ -46,7 +55,8 @@ export default defineComponent({
     max-width: var(--inner-container);
   }
 
-  &__button {
+  &__button-open,
+  &__button-close {
     @include centerUsingFlex();
 
     display: none;
@@ -64,6 +74,26 @@ export default defineComponent({
     }
   }
 
+  &--absolute {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &--absolute &__input {
+    display: block;
+  }
+
+  &--absolute &__button-close {
+    display: flex;
+    margin-left: 10px;
+  }
+
+  &--absolute &__button-open {
+    display: none;
+  }
+
   @media screen and (max-width: $max-mobile-breakpoint) {
     & {
       justify-content: flex-end;
@@ -74,7 +104,7 @@ export default defineComponent({
       display: none;
     }
 
-    &__button {
+    &__button-open {
       display: flex;
     }
   }

@@ -35,7 +35,9 @@ export default defineComponent({
 <style lang="scss">
 .base-header {
   align-items: center;
+  justify-content: space-between;
   display: flex;
+  position: relative;
 
   .base-logo {
     padding-right: 3.2rem;

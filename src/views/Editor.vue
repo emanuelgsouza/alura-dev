@@ -151,6 +151,10 @@ export default defineComponent({
   .editor-view {
     flex-direction: column;
 
+    &__code {
+      max-width: 100%;
+    }
+
     .base-code-view {
       margin-bottom: 4rem;
       max-width: 100%;
