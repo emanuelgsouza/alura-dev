@@ -65,6 +65,8 @@
 
 <script>
 import { defineComponent } from "vue";
+import { mapMutations } from "vuex";
+
 import BaseInputColor from "@/components/BaseInputColor.vue";
 import BaseSelect from "@/components/BaseSelect.vue";
 import BaseCodeView from "@/components/BaseCodeView.vue";
@@ -140,6 +142,8 @@ export default defineComponent({
   },
 
   methods: {
+    ...mapMutations(["changeCurrentPage"]),
+
     handleToggleHighlight() {
       this.enableHighlight = !this.enableHighlight;
     },
@@ -162,6 +166,10 @@ export default defineComponent({
         domToImage[method](this.$refs.baseCodeView.$el).then(this.downloadFile);
       });
     },
+  },
+
+  mounted() {
+    this.changeCurrentPage("Editor");
   },
 });
 </script>

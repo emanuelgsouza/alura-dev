@@ -22,7 +22,16 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapGetters(["isSidebarOpen"]),
+    ...mapGetters(["isSidebarOpen", "siteTitle"]),
+  },
+
+  watch: {
+    siteTitle: {
+      handler(newValue) {
+        document.title = newValue;
+      },
+      immediate: true,
+    },
   },
 });
 </script>

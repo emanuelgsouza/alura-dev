@@ -10,6 +10,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
+import { mapMutations } from "vuex";
 import BaseProjectCard from "@/components/BaseProjectCard.vue";
 
 const testCode = `function helloWorld() {
@@ -61,6 +63,14 @@ export default defineComponent({
       },
     ],
   }),
+
+  methods: {
+    ...mapMutations(["changeCurrentPage"]),
+  },
+
+  mounted() {
+    this.changeCurrentPage("Community");
+  },
 });
 </script>
 
