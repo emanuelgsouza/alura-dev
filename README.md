@@ -1,4 +1,9 @@
-# alura-dev
+# AluraDev
+
+## Technologies used
+
+* [Vuejs](https://v3.vuejs.org/)
+* [Typescript](https://www.typescriptlang.org/)
 
 ## Project setup
 ```
