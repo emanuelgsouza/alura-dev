@@ -29,6 +29,8 @@ export default defineComponent({
         language: "javascript",
         code: testCode,
         color: "#9AFF6B",
+        comments: 9,
+        hearts: 30,
       },
       {
         name: "Titulo do projeto",
@@ -36,6 +38,8 @@ export default defineComponent({
         language: "javascript",
         code: testCode,
         color: "#6B83FF",
+        comments: 9,
+        hearts: 30,
       },
       {
         name: "Titulo do projeto",
@@ -43,6 +47,8 @@ export default defineComponent({
         language: "javascript",
         code: testCode,
         color: "#FFC46B",
+        comments: 9,
+        hearts: 30,
       },
       {
         name: "Titulo do projeto",
@@ -50,6 +56,8 @@ export default defineComponent({
         language: "javascript",
         code: testCode,
         color: "#FF6BCD",
+        comments: 9,
+        hearts: 30,
       },
     ],
   }),

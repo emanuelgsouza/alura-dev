@@ -3,4 +3,6 @@ export interface IProject {
   code: string;
   name: string;
   description: string;
+  comments: number;
+  hearts: number;
 }
