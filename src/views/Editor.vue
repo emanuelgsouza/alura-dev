@@ -6,6 +6,7 @@
         v-model:code="model.code"
         :language="computedLanguage"
         :highlight="enableHighlight"
+        ref="baseCodeView"
       />
 
       <button class="button button--outline" @click="handleToggleHighlight">
@@ -29,15 +30,35 @@
         placeholder="Descrição do seu projeto"
       />
 
-      <p class="editor-view__form-title">Personalização</p>
-
       <div class="editor-view__section">
+        <p class="editor-view__form-title">Personalização</p>
+
         <BaseSelect v-model:value="model.language" :options="languageOptions" />
 
         <BaseInputColor v-model:color="model.color" />
+
+        <button class="button">Salvar projeto</button>
       </div>
 
-      <button class="button">Salvar projeto</button>
+      <div class="editor-view__section">
+        <p class="editor-view__form-title">Exportação</p>
+
+        <input
+          v-model="exportFileName"
+          class="input"
+          type="text"
+          placeholder="Nome do arquivo"
+        />
+
+        <BaseSelect
+          v-model:value="exportFormat"
+          :options="exportFormatOptions"
+        />
+
+        <button class="button" @click="exportAsPng">
+          Exportar project em {{ exportFormat }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +68,14 @@ import { defineComponent } from "vue";
 import BaseInputColor from "@/components/BaseInputColor.vue";
 import BaseSelect from "@/components/BaseSelect.vue";
 import BaseCodeView from "@/components/BaseCodeView.vue";
+
+import domToImage from "dom-to-image";
+
+const FORMATS_METHODS = {
+  png: "toPng",
+  jpeg: "toJpeg",
+  svg: "toSvg",
+};
 
 export default defineComponent({
   name: "EditorView",
@@ -63,6 +92,25 @@ export default defineComponent({
       description: null,
       language: "javascript",
     },
+
+    exportFormatOptions: [
+      {
+        label: "png",
+        value: "png",
+      },
+      {
+        label: "jpeg",
+        value: "jpeg",
+      },
+      {
+        label: "svg",
+        value: "svg",
+      },
+    ],
+
+    exportFormat: "png",
+
+    exportFileName: "screenshoot",
 
     languageOptions: [
       {
@@ -95,6 +143,25 @@ export default defineComponent({
     handleToggleHighlight() {
       this.enableHighlight = !this.enableHighlight;
     },
+
+    downloadFile(dataUrl) {
+      const link = document.createElement("a");
+      link.download = `${this.exportFileName}.${this.exportFormat}`;
+      link.href = dataUrl;
+      link.click();
+      link.remove();
+    },
+
+    exportAsPng() {
+      if (!this.enableHighlight) {
+        this.enableHighlight = true;
+      }
+
+      this.$nextTick(() => {
+        const method = FORMATS_METHODS[this.exportFormat];
+        domToImage[method](this.$refs.baseCodeView.$el).then(this.downloadFile);
+      });
+    },
   },
 });
 </script>
@@ -126,10 +193,6 @@ export default defineComponent({
       line-height: 1.8rem;
       margin-bottom: 1.6rem;
       text-transform: uppercase;
-
-      &:not(:first-child) {
-        margin-top: 4rem;
-      }
     }
 
     .input {
@@ -137,13 +200,21 @@ export default defineComponent({
     }
 
     .base-input-color {
-      margin: 1.6rem 0;
+      margin-bottom: 1.6rem;
     }
   }
 
   &__section {
     display: flex;
     flex-direction: column;
+
+    &:not(:first-child) {
+      margin-top: 4rem;
+    }
+  }
+
+  .base-select {
+    margin-bottom: 1.6rem;
   }
 }
 
@@ -153,6 +224,7 @@ export default defineComponent({
 
     &__code {
       max-width: 100%;
+      margin-bottom: 4rem;
     }
 
     .base-code-view {
@@ -165,16 +237,11 @@ export default defineComponent({
     }
 
     &__section {
-      flex-direction: row;
       margin-bottom: 1.6rem;
 
       .base-select,
       .base-input-color {
         flex: 1;
-      }
-
-      .base-input-color {
-        margin: 0 0 0 1.6rem;
       }
     }
   }
