@@ -8,7 +8,9 @@
     />
 
     <div class="base-project-card__content">
-      <p class="base-project-card__title">{{ project.name }}</p>
+      <router-link class="base-project-card__title" :to="projectLink">
+        {{ project.name }}
+      </router-link>
 
       <p class="base-project-card__description">{{ project.description }}</p>
     </div>
@@ -57,6 +59,15 @@ export default defineComponent({
   computed: {
     isFavorited(): boolean {
       return true;
+    },
+
+    projectLink(): { name: string; params: { id: string } } {
+      return {
+        name: "ProjectDetail",
+        params: {
+          id: this.project.id || "",
+        },
+      };
     },
   },
 });
