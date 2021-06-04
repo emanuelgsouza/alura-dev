@@ -1,7 +1,7 @@
 <template>
-  <div class="base-logo">
+  <router-link class="base-logo" to="/">
     <img src="@/assets/logo.svg" alt="Logo do projeto AluraDev" />
-  </div>
+  </router-link>
 </template>
 
 <script>
