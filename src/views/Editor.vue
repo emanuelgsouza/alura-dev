@@ -12,6 +12,8 @@
       <button class="button button--outline" @click="handleToggleHighlight">
         Visualizar com o highlight
       </button>
+
+      <button class="button" @click="exportCodeFile">Exportar código</button>
     </div>
 
     <div class="editor-view__form">
@@ -92,7 +94,7 @@ export default defineComponent({
       color: "#6bd1ff",
       name: null,
       description: null,
-      language: "javascript",
+      language: "js",
     },
 
     exportFormatOptions: [
@@ -122,7 +124,7 @@ export default defineComponent({
       },
       {
         label: "JavaScript",
-        value: "javascript",
+        value: "js",
         language: "javascript",
       },
       {
@@ -134,10 +136,14 @@ export default defineComponent({
   }),
 
   computed: {
-    computedLanguage() {
+    currentLanguage() {
       return this.languageOptions.find(
-        (languageOption) => languageOption.language === this.model.language
-      ).language;
+        (languageOption) => languageOption.value === this.model.language
+      );
+    },
+
+    computedLanguage() {
+      return this.currentLanguage.language;
     },
   },
 
@@ -165,6 +171,30 @@ export default defineComponent({
         const method = FORMATS_METHODS[this.exportFormat];
         domToImage[method](this.$refs.baseCodeView.$el).then(this.downloadFile);
       });
+    },
+
+    exportCodeFile() {
+      const language = this.currentLanguage.value;
+
+      this.downloadString(
+        this.model.code,
+        this.exportFormat,
+        `file.${language}`
+      );
+    },
+
+    downloadString(content, fileType, fileName) {
+      // https://gist.github.com/danallison/3ec9d5314788b337b682
+      const blob = new Blob([content], { type: fileType });
+
+      const a = document.createElement("a");
+      a.download = fileName;
+      a.href = URL.createObjectURL(blob);
+      a.dataset.downloadurl = [fileType, a.download, a.href].join(":");
+      a.click();
+      setTimeout(function () {
+        URL.revokeObjectURL(a.href);
+      }, 1500);
     },
   },
 
