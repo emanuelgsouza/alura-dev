@@ -1,4 +1,10 @@
 <template>
+  <BaseNotification
+    v-model:is-open="isNotificationOpen"
+    :message="notificationMessage"
+    @close="handleClose"
+  />
+
   <BaseHeader />
 
   <main class="main" :class="{ 'main--sidebar-open': isSidebarOpen }">
@@ -10,27 +16,52 @@
 
 <script>
 import { defineComponent } from "vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 import BaseHeader from "@/components/BaseHeader.vue";
 import BaseAsideMenu from "@/components/BaseAsideMenu.vue";
+import BaseNotification from "@/components/BaseNotification.vue";
 
 export default defineComponent({
   components: {
     BaseHeader,
     BaseAsideMenu,
+    BaseNotification,
   },
 
+  data: () => ({
+    isNotificationOpen: false,
+  }),
+
   computed: {
-    ...mapGetters(["isSidebarOpen", "siteTitle"]),
+    ...mapGetters([
+      "isSidebarOpen",
+      "siteTitle",
+      "isNotificationActive",
+      "notificationMessage",
+    ]),
   },
 
   watch: {
+    isNotificationActive: {
+      handler(newValue) {
+        this.isNotificationOpen = newValue;
+      },
+    },
+
     siteTitle: {
       handler(newValue) {
         document.title = newValue;
       },
       immediate: true,
+    },
+  },
+
+  methods: {
+    ...mapMutations(["clearNotification"]),
+
+    handleClose() {
+      this.clearNotification();
     },
   },
 });

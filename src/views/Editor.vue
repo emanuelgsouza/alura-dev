@@ -157,7 +157,7 @@ export default defineComponent({
   },
 
   methods: {
-    ...mapMutations(["changeCurrentPage"]),
+    ...mapMutations(["changeCurrentPage", "setNotification"]),
 
     handleToggleHighlight() {
       this.enableHighlight = !this.enableHighlight;
@@ -211,6 +211,8 @@ export default defineComponent({
         this.$router.push({
           name: "Community",
         });
+
+        this.setNotification("Projeto salvo");
       });
     },
   },
