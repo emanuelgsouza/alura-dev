@@ -58,7 +58,7 @@
         />
 
         <button class="button" @click="exportAsPng">
-          Exportar project em {{ exportFormat }}
+          Exportar código em {{ exportFormat }}
         </button>
       </div>
     </div>
