@@ -13,12 +13,12 @@
         Visualizar com o highlight
       </button>
 
-      <button class="button" @click="exportCodeFile">Exportar código</button>
+      <BaseExportCode :language="model.language" :code="model.code" />
     </div>
 
     <div class="editor-view__form">
-      <form @submit.prevent="handleSubmit">
-        <p class="editor-view__form-title">Seu projeto</p>
+      <form @submit.prevent="handleSubmit" class="form">
+        <p class="form-title">Seu projeto</p>
 
         <input
           required
@@ -35,8 +35,8 @@
           placeholder="Descrição do seu projeto"
         />
 
-        <div class="editor-view__section">
-          <p class="editor-view__form-title">Personalização</p>
+        <div class="form">
+          <p class="form-title">Personalização</p>
 
           <BaseSelect
             required
@@ -50,25 +50,7 @@
         </div>
       </form>
 
-      <div class="editor-view__section">
-        <p class="editor-view__form-title">Exportação</p>
-
-        <input
-          v-model="exportFileName"
-          class="input"
-          type="text"
-          placeholder="Nome do arquivo"
-        />
-
-        <BaseSelect
-          v-model:value="exportFormat"
-          :options="exportFormatOptions"
-        />
-
-        <button class="button" @click="exportAsPng">
-          Exportar código em {{ exportFormat }}
-        </button>
-      </div>
+      <BaseExportImage :element="codeElement" />
     </div>
   </div>
 </template>
@@ -81,19 +63,19 @@ import { AluraDevModel } from "@/lib/storage";
 import BaseInputColor from "@/components/BaseInputColor.vue";
 import BaseSelect from "@/components/BaseSelect.vue";
 import BaseCodeView from "@/components/BaseCodeView.vue";
-
-import domToImage from "dom-to-image";
-
-const FORMATS_METHODS = {
-  png: "toPng",
-  jpeg: "toJpeg",
-  svg: "toSvg",
-};
+import BaseExportCode from "@/components/BaseExportCode.vue";
+import BaseExportImage from "@/components/BaseExportImage.vue";
 
 export default defineComponent({
   name: "EditorView",
 
-  components: { BaseInputColor, BaseSelect, BaseCodeView },
+  components: {
+    BaseInputColor,
+    BaseSelect,
+    BaseCodeView,
+    BaseExportCode,
+    BaseExportImage,
+  },
 
   data: () => ({
     enableHighlight: false,
@@ -105,25 +87,6 @@ export default defineComponent({
       description: null,
       language: "js",
     },
-
-    exportFormatOptions: [
-      {
-        label: "png",
-        value: "png",
-      },
-      {
-        label: "jpeg",
-        value: "jpeg",
-      },
-      {
-        label: "svg",
-        value: "svg",
-      },
-    ],
-
-    exportFormat: "png",
-
-    exportFileName: "screenshoot",
 
     languageOptions: [
       {
@@ -142,6 +105,8 @@ export default defineComponent({
         language: "html",
       },
     ],
+
+    codeElement: HTMLElement,
   }),
 
   computed: {
@@ -163,49 +128,6 @@ export default defineComponent({
       this.enableHighlight = !this.enableHighlight;
     },
 
-    downloadFile(dataUrl) {
-      const link = document.createElement("a");
-      link.download = `${this.exportFileName}.${this.exportFormat}`;
-      link.href = dataUrl;
-      link.click();
-      link.remove();
-    },
-
-    exportAsPng() {
-      if (!this.enableHighlight) {
-        this.enableHighlight = true;
-      }
-
-      this.$nextTick(() => {
-        const method = FORMATS_METHODS[this.exportFormat];
-        domToImage[method](this.$refs.baseCodeView.$el).then(this.downloadFile);
-      });
-    },
-
-    exportCodeFile() {
-      const language = this.currentLanguage.value;
-
-      this.downloadString(
-        this.model.code,
-        this.exportFormat,
-        `file.${language}`
-      );
-    },
-
-    downloadString(content, fileType, fileName) {
-      // https://gist.github.com/danallison/3ec9d5314788b337b682
-      const blob = new Blob([content], { type: fileType });
-
-      const a = document.createElement("a");
-      a.download = fileName;
-      a.href = URL.createObjectURL(blob);
-      a.dataset.downloadurl = [fileType, a.download, a.href].join(":");
-      a.click();
-      setTimeout(function () {
-        URL.revokeObjectURL(a.href);
-      }, 1500);
-    },
-
     async handleSubmit() {
       return AluraDevModel.saveProject(this.model).then(() => {
         this.$router.push({
@@ -219,6 +141,12 @@ export default defineComponent({
 
   mounted() {
     this.changeCurrentPage("Editor");
+
+    this.$nextTick(() => {
+      if (this.$refs.baseCodeView) {
+        this.codeElement = this.$refs.baseCodeView.$el;
+      }
+    });
   },
 });
 </script>
@@ -244,34 +172,6 @@ export default defineComponent({
     flex: 1;
     flex-direction: column;
     padding: 0 0 0 4rem;
-
-    &-title {
-      font-size: 1.2rem;
-      line-height: 1.8rem;
-      margin-bottom: 1.6rem;
-      text-transform: uppercase;
-    }
-
-    .input {
-      margin-bottom: 1.6rem;
-    }
-
-    .base-input-color {
-      margin-bottom: 1.6rem;
-    }
-  }
-
-  &__section {
-    display: flex;
-    flex-direction: column;
-
-    &:not(:first-child) {
-      margin-top: 4rem;
-    }
-  }
-
-  .base-select {
-    margin-bottom: 1.6rem;
   }
 }
 
@@ -293,7 +193,7 @@ export default defineComponent({
       padding-left: 0;
     }
 
-    &__section {
+    .form {
       margin-bottom: 1.6rem;
 
       .base-select,
@@ -305,7 +205,7 @@ export default defineComponent({
 }
 
 @media screen and (max-width: $max-mobile-breakpoint) {
-  .editor-view__section {
+  .form {
     flex-direction: column;
 
     .base-input-color {
