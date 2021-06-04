@@ -17,30 +17,38 @@
     </div>
 
     <div class="editor-view__form">
-      <p class="editor-view__form-title">Seu projeto</p>
+      <form @submit.prevent="handleSubmit">
+        <p class="editor-view__form-title">Seu projeto</p>
 
-      <input
-        v-model="model.name"
-        class="input"
-        type="text"
-        placeholder="Nome do seu projeto"
-      />
+        <input
+          required
+          v-model="model.name"
+          class="input"
+          type="text"
+          placeholder="Nome do seu projeto"
+        />
 
-      <textarea
-        v-model="model.description"
-        class="textarea"
-        placeholder="Descrição do seu projeto"
-      />
+        <textarea
+          required
+          v-model="model.description"
+          class="textarea"
+          placeholder="Descrição do seu projeto"
+        />
 
-      <div class="editor-view__section">
-        <p class="editor-view__form-title">Personalização</p>
+        <div class="editor-view__section">
+          <p class="editor-view__form-title">Personalização</p>
 
-        <BaseSelect v-model:value="model.language" :options="languageOptions" />
+          <BaseSelect
+            required
+            v-model:value="model.language"
+            :options="languageOptions"
+          />
 
-        <BaseInputColor v-model:color="model.color" />
+          <BaseInputColor v-model:color="model.color" />
 
-        <button class="button" @click="saveProject">Salvar projeto</button>
-      </div>
+          <button class="button" type="submit">Salvar projeto</button>
+        </div>
+      </form>
 
       <div class="editor-view__section">
         <p class="editor-view__form-title">Exportação</p>
@@ -198,7 +206,7 @@ export default defineComponent({
       }, 1500);
     },
 
-    async saveProject() {
+    async handleSubmit() {
       return AluraDevModel.saveProject(this.model).then(() => {
         this.$router.push({
           name: "Community",
