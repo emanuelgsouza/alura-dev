@@ -5,6 +5,10 @@
       :key="key"
       :project="project"
     />
+
+    <template v-if="!hasProjects">
+      <p class="community-view__empty-message">Não há projetos na comunidade</p>
+    </template>
   </div>
 </template>
 
@@ -14,9 +18,8 @@ import { defineComponent } from "vue";
 import { mapMutations } from "vuex";
 import BaseProjectCard from "@/components/BaseProjectCard.vue";
 
-const testCode = `function helloWorld() {
-  console.log("Hello World");
-}`;
+import { AluraDevModel } from "@/lib/storage";
+import { IProject } from "@/types/interfaces";
 
 export default defineComponent({
   name: "CommunityView",
@@ -24,48 +27,23 @@ export default defineComponent({
   components: { BaseProjectCard },
 
   data: () => ({
-    projects: [
-      {
-        name: "Titulo do projeto",
-        description: "Essa é a descrição do meu projeto.",
-        language: "javascript",
-        code: testCode,
-        color: "#9AFF6B",
-        comments: 9,
-        hearts: 30,
-      },
-      {
-        name: "Titulo do projeto",
-        description: "Essa é a descrição do meu projeto.",
-        language: "javascript",
-        code: testCode,
-        color: "#6B83FF",
-        comments: 9,
-        hearts: 30,
-      },
-      {
-        name: "Titulo do projeto",
-        description: "Essa é a descrição do meu projeto.",
-        language: "javascript",
-        code: testCode,
-        color: "#FFC46B",
-        comments: 9,
-        hearts: 30,
-      },
-      {
-        name: "Titulo do projeto",
-        description: "Essa é a descrição do meu projeto.",
-        language: "javascript",
-        code: testCode,
-        color: "#FF6BCD",
-        comments: 9,
-        hearts: 30,
-      },
-    ],
+    projects: [] as IProject[],
   }),
+
+  computed: {
+    hasProjects(): boolean {
+      return this.projects.length > 0;
+    },
+  },
 
   methods: {
     ...mapMutations(["changeCurrentPage"]),
+
+    loadProjects() {
+      AluraDevModel.getProjects().then((projects) => {
+        this.projects = projects;
+      });
+    },
   },
 
   mounted() {
@@ -85,6 +63,11 @@ export default defineComponent({
     & {
       grid-template-columns: repeat(1, 1fr);
     }
+  }
+
+  &__empty-message {
+    font-size: 1.8rem;
+    color: var(--white);
   }
 }
 </style>
