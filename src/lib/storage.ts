@@ -1,6 +1,6 @@
 import { IProject } from "@/types/interfaces";
 import localforage from "localforage";
-import { uuid } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 const KEYS = {
   PROJECTS: "projects",
@@ -41,7 +41,7 @@ export class AluraDevDB {
       const projects = await this.getProjects();
       const project: IProject = {
         ...data,
-        id: uuid(),
+        id: uuidv4(),
         created_at: new Date(),
       };
 
