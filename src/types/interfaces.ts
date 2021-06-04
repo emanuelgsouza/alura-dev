@@ -7,6 +7,7 @@ export interface IUser {
 export interface IProject {
   id?: string;
   user?: IUser;
+  created_at?: Date;
   color: string;
   code: string;
   name: string;

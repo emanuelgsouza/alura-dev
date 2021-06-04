@@ -39,7 +39,7 @@
 
         <BaseInputColor v-model:color="model.color" />
 
-        <button class="button">Salvar projeto</button>
+        <button class="button" @click="saveProject">Salvar projeto</button>
       </div>
 
       <div class="editor-view__section">
@@ -69,6 +69,7 @@
 import { defineComponent } from "vue";
 import { mapMutations } from "vuex";
 
+import { AluraDevModel } from "@/lib/storage";
 import BaseInputColor from "@/components/BaseInputColor.vue";
 import BaseSelect from "@/components/BaseSelect.vue";
 import BaseCodeView from "@/components/BaseCodeView.vue";
@@ -195,6 +196,14 @@ export default defineComponent({
       setTimeout(function () {
         URL.revokeObjectURL(a.href);
       }, 1500);
+    },
+
+    async saveProject() {
+      return AluraDevModel.saveProject(this.model).then(() => {
+        this.$router.push({
+          name: "Community",
+        });
+      });
     },
   },
 

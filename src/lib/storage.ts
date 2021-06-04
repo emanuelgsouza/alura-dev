@@ -1,5 +1,6 @@
 import { IProject } from "@/types/interfaces";
 import localforage from "localforage";
+import { uuid } from "uuidv4";
 
 const KEYS = {
   PROJECTS: "projects",
@@ -7,6 +8,7 @@ const KEYS = {
 
 export const aluraDbStorage = localforage.createInstance({
   name: "AluraDevDB",
+  driver: localforage.LOCALSTORAGE,
 });
 
 export class AluraDevDB {
@@ -34,9 +36,14 @@ export class AluraDevDB {
     }
   }
 
-  async saveProject(project: IProject): Promise<IProject> {
+  async saveProject(data: Required<IProject>): Promise<IProject> {
     try {
       const projects = await this.getProjects();
+      const project: IProject = {
+        ...data,
+        id: uuid(),
+        created_at: new Date(),
+      };
 
       projects.push(project);
 

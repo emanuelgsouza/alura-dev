@@ -48,6 +48,8 @@ export default defineComponent({
 
   mounted() {
     this.changeCurrentPage("Community");
+
+    this.loadProjects();
   },
 });
 </script>
