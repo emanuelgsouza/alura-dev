@@ -4,6 +4,7 @@
 
     <div class="base-login__content">
       <input
+        ref="input"
         class="input"
         type="text"
         v-model="github"
@@ -34,6 +35,14 @@ export default {
   computed: {
     hasGithub() {
       return this.github.length > 0;
+    },
+  },
+
+  watch: {
+    active(value) {
+      if (value) {
+        this.$refs.input.focus();
+      }
     },
   },
 
