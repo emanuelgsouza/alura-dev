@@ -200,6 +200,10 @@ export default defineComponent({
       .base-input-color {
         flex: 1;
       }
+
+      .button {
+        margin-top: 1.6rem;
+      }
     }
   }
 }

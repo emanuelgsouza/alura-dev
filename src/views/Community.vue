@@ -64,11 +64,16 @@ export default defineComponent({
 
   @media screen and (max-width: $max-tablet-breakpoint) {
     & {
-      grid-template-columns: repeat(1, 1fr);
+      display: block;
     }
 
     .base-project-card {
       max-width: 100%;
+      margin-bottom: 2.4rem;
+    }
+
+    .base-project-card:last-child {
+      margin-bottom: 0;
     }
   }
 
