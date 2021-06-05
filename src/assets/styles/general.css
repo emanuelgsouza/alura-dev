@@ -61,6 +61,10 @@ body {
   outline: 4px solid rgba(80, 129, 251, 0.72);
 }
 
+.button:disabled {
+  cursor: not-allowed;
+}
+
 .button:focus {
   background-color: var(--blue-100);
 }

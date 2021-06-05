@@ -2,6 +2,7 @@ export interface IUser {
   name: string;
   avatar: string;
   email: string;
+  github: string;
 }
 
 export interface IProject {

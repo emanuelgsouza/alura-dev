@@ -5,7 +5,7 @@
     <BaseSearch />
 
     <div class="base-header__right">
-      <BaseProfile />
+      <BaseProfile :user="user" :login="!hasUser" />
 
       <BaseMenuButton class="menu-button" />
     </div>
@@ -14,6 +14,7 @@
 
 <script>
 import { defineComponent } from "vue";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 import BaseLogo from "@/components/BaseLogo";
 import BaseSearch from "@/components/BaseSearch";
@@ -28,6 +29,17 @@ export default defineComponent({
     BaseSearch,
     BaseProfile,
     BaseMenuButton,
+  },
+
+  computed: {
+    ...mapGetters(["hasUser"]),
+    ...mapState({
+      user: (state) => state.user,
+    }),
+  },
+
+  methods: {
+    ...mapActions(["loadUserFromGithub"]),
   },
 });
 </script>

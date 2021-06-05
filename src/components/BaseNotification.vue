@@ -74,6 +74,7 @@ export default defineComponent({
 
   &--negative {
     background-color: var(--red);
+    color: var(--white);
   }
 
   &--open {

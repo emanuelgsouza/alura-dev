@@ -32,7 +32,7 @@
         </button>
       </div>
 
-      <BaseProfile />
+      <BaseProfile :user="user" />
     </div>
   </div>
 </template>
@@ -76,6 +76,10 @@ export default {
 
     hearts() {
       return this.project.hearts.length;
+    },
+
+    user() {
+      return this.project.user || {};
     },
   },
 };

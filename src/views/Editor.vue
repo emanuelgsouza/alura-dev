@@ -57,7 +57,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState, mapGetters } from "vuex";
 
 import { AluraDevModel } from "@/lib/storage";
 import BaseInputColor from "@/components/BaseInputColor.vue";
@@ -110,6 +110,11 @@ export default defineComponent({
   }),
 
   computed: {
+    ...mapGetters(["hasUser"]),
+    ...mapState({
+      user: (state) => state.user,
+    }),
+
     currentLanguage() {
       return this.languageOptions.find(
         (languageOption) => languageOption.value === this.model.language
@@ -129,12 +134,25 @@ export default defineComponent({
     },
 
     async handleSubmit() {
-      return AluraDevModel.saveProject(this.model).then(() => {
+      if (!this.hasUser) {
+        this.setNotification({
+          message: "Não é possível criar um projeto sem estar salvo",
+          type: "negative",
+        });
+        return;
+      }
+
+      const data = {
+        ...this.model,
+        user: this.user,
+      };
+
+      return AluraDevModel.saveProject(data).then(() => {
         this.$router.push({
           name: "Community",
         });
 
-        this.setNotification("Projeto salvo");
+        this.setNotification({ message: "Projeto salvo", type: "positive" });
       });
     },
   },

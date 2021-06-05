@@ -37,14 +37,15 @@
 
     <hr />
 
-    <BaseProfile />
+    <BaseProfile :user="user" :login="!hasUser" />
   </aside>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
+
 import BaseIcon from "@/components/BaseIcon";
 import BaseProfile from "@/components/BaseProfile";
-import { mapGetters } from "vuex";
 
 export default {
   name: "BaseAsideMenu",
@@ -52,7 +53,11 @@ export default {
   components: { BaseIcon, BaseProfile },
 
   computed: {
-    ...mapGetters(["isSidebarOpen"]),
+    ...mapGetters(["isSidebarOpen", "hasUser"]),
+
+    ...mapState({
+      user: (state) => state.user,
+    }),
   },
 };
 </script>

@@ -1,7 +1,10 @@
 <template>
+  <BaseLogin :active="showLoginForm" />
+
   <BaseNotification
     v-model:is-open="isNotificationOpen"
     :message="notificationMessage"
+    :type="notificationType"
     @close="handleClose"
   />
 
@@ -18,12 +21,14 @@
 import { defineComponent } from "vue";
 import { mapGetters, mapMutations } from "vuex";
 
+import BaseLogin from "@/components/BaseLogin.vue";
 import BaseHeader from "@/components/BaseHeader.vue";
 import BaseAsideMenu from "@/components/BaseAsideMenu.vue";
 import BaseNotification from "@/components/BaseNotification.vue";
 
 export default defineComponent({
   components: {
+    BaseLogin,
     BaseHeader,
     BaseAsideMenu,
     BaseNotification,
@@ -35,11 +40,18 @@ export default defineComponent({
 
   computed: {
     ...mapGetters([
+      "isLoginActive",
+      "hasUser",
       "isSidebarOpen",
       "siteTitle",
       "isNotificationActive",
       "notificationMessage",
+      "notificationType",
     ]),
+
+    showLoginForm() {
+      return this.isLoginActive && !this.hasUser;
+    },
   },
 
   watch: {
@@ -69,7 +81,9 @@ export default defineComponent({
     ...mapMutations(["clearNotification", "toggleSidebarOpen"]),
 
     handleClose() {
-      this.clearNotification();
+      setTimeout(() => {
+        this.clearNotification();
+      }, 3000);
     },
   },
 });
