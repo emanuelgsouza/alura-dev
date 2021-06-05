@@ -10,4 +10,12 @@ module.exports = {
       },
     },
   },
+  pwa: {
+    name: "AluraDev - Emanuel Gonçalves",
+    appleMobileWebAppCapable: "yes",
+    appleMobileWebAppStatusBarStyle: "black",
+    workboxOptions: {
+      skipWaiting: true,
+    },
+  },
 };
