@@ -49,6 +49,14 @@ export default defineComponent({
       },
     },
 
+    $route: {
+      handler() {
+        if (this.isSidebarOpen) {
+          this.toggleSidebarOpen();
+        }
+      },
+    },
+
     siteTitle: {
       handler(newValue) {
         document.title = newValue;
@@ -58,7 +66,7 @@ export default defineComponent({
   },
 
   methods: {
-    ...mapMutations(["clearNotification"]),
+    ...mapMutations(["clearNotification", "toggleSidebarOpen"]),
 
     handleClose() {
       this.clearNotification();
@@ -73,6 +81,7 @@ export default defineComponent({
   margin: 0 auto;
   min-height: 100vh;
   padding: 3.2rem;
+  overflow-x: hidden;
 
   .main {
     display: flex;

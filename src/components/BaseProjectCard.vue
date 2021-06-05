@@ -5,6 +5,7 @@
       :code="project.code"
       :language="project.language"
       highlight
+      minified
     />
 
     <div class="base-project-card__content">
@@ -19,7 +20,7 @@
       <div class="base-project-card__actions">
         <button class="base-project-card__action">
           <BaseIcon icon="comment" />
-          <span>{{ project.comments }}</span>
+          <span>{{ comments }}</span>
         </button>
 
         <button
@@ -27,7 +28,7 @@
           :class="{ 'base-project-card__action--red': isFavorited }"
         >
           <BaseIcon icon="heart" />
-          <span>{{ project.hearts }}</span>
+          <span>{{ hearts }}</span>
         </button>
       </div>
 
@@ -36,32 +37,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
-
-import type { IProject } from "@/types/interfaces";
+<script>
 import BaseCodeView from "./BaseCodeView.vue";
 import BaseIcon from "./BaseIcon.vue";
 import BaseProfile from "./BaseProfile.vue";
 
-export default defineComponent({
+export default {
   name: "BaseProjectCard",
 
   components: { BaseCodeView, BaseIcon, BaseProfile },
 
   props: {
     project: {
-      type: Object as PropType<IProject>,
+      type: Object,
       default: () => ({}),
     },
+
+    minified: Boolean,
   },
 
   computed: {
-    isFavorited(): boolean {
-      return true;
+    isFavorited() {
+      return false;
     },
 
-    projectLink(): { name: string; params: { id: string } } {
+    projectLink() {
       return {
         name: "ProjectDetail",
         params: {
@@ -69,8 +69,16 @@ export default defineComponent({
         },
       };
     },
+
+    comments() {
+      return this.project.comments.length;
+    },
+
+    hearts() {
+      return this.project.hearts.length;
+    },
   },
-});
+};
 </script>
 
 <style lang="scss">
@@ -97,6 +105,7 @@ export default defineComponent({
   }
 
   &__title {
+    display: block;
     font-size: 2.1rem;
     font-weight: bold;
     margin-bottom: 8px;

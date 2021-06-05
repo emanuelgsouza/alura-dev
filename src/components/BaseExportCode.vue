@@ -2,7 +2,7 @@
   <button class="button" @click="exportCodeFile">{{ message }}</button>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: "BaseExportCode",
 
@@ -18,7 +18,7 @@ export default {
   },
 
   methods: {
-    downloadString(content: string, fileName: string): void {
+    downloadString(content, fileName) {
       // https://gist.github.com/danallison/3ec9d5314788b337b682
       const contentType = `text/${this.language}`;
       const blob = new Blob([content], { type: contentType });
@@ -33,7 +33,7 @@ export default {
       }, 1500);
     },
 
-    exportCodeFile(): void {
+    exportCodeFile() {
       this.downloadString(this.code || "", `file.${this.language}`);
     },
   },

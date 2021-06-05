@@ -4,6 +4,7 @@
       v-for="(project, key) in projects"
       :key="key"
       :project="project"
+      minified
     />
 
     <template v-if="!hasProjects">
@@ -64,6 +65,10 @@ export default defineComponent({
   @media screen and (max-width: $max-tablet-breakpoint) {
     & {
       grid-template-columns: repeat(1, 1fr);
+    }
+
+    .base-project-card {
+      max-width: 100%;
     }
   }
 

@@ -12,6 +12,6 @@ export interface IProject {
   code: string;
   name: string;
   description: string;
-  comments: number;
-  hearts: number;
+  comments: IUser[];
+  hearts: IUser[];
 }

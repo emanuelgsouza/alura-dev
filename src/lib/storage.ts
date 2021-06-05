@@ -42,6 +42,8 @@ export class AluraDevDB {
       const project: IProject = {
         ...data,
         id: uuidv4(),
+        hearts: [],
+        comments: [],
         created_at: new Date(),
       };
 

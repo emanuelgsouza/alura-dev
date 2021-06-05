@@ -1,5 +1,9 @@
 <template>
-  <div class="base-code-view" :style="{ backgroundColor: backgroundColor }">
+  <div
+    class="base-code-view"
+    :style="{ backgroundColor: backgroundColor }"
+    :class="{ 'base-code-view--minified': minified }"
+  >
     <div class="base-code-view__dots">
       <span class="base-code-view__dot base-code-view__dot--red"></span>
       <span class="base-code-view__dot base-code-view__dot--yellow"></span>
@@ -50,6 +54,8 @@ export default {
     },
 
     readonly: Boolean,
+
+    minified: Boolean,
   },
 
   emits: ["update:code"],
@@ -112,6 +118,15 @@ export default {
     font-size: 1.4rem;
   }
 
+  code {
+    display: block;
+    overflow-x: auto;
+  }
+
+  pre {
+    display: flex;
+  }
+
   &__dots {
     display: flex;
     position: absolute;
@@ -140,6 +155,10 @@ export default {
     &--green {
       background-color: #27c93f;
     }
+  }
+
+  &--minified {
+    height: 376px;
   }
 }
 </style>
