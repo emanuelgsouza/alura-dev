@@ -8,7 +8,7 @@
     />
 
     <template v-if="!hasProjects">
-      <p class="community-view__empty-message">Não há projetos na comunidade</p>
+      <p class="community-view__empty-message">{{ emptyMessage }}</p>
     </template>
   </div>
 </template>
@@ -35,13 +35,37 @@ export default defineComponent({
     hasProjects(): boolean {
       return this.projects.length > 0;
     },
+
+    onSearch(): boolean {
+      return this.$route.meta.search as boolean;
+    },
+
+    searchValue(): string | undefined {
+      if (this.onSearch) {
+        return this.$route.query.search as string;
+      }
+
+      return undefined;
+    },
+
+    emptyMessage(): string {
+      if (this.onSearch) {
+        return `Não há resultados para a sua pesquisa ${this.searchValue}`;
+      }
+
+      return "Não há projetos na comunidade";
+    },
+  },
+
+  watch: {
+    $route: "loadProjects",
   },
 
   methods: {
     ...mapMutations(["changeCurrentPage"]),
 
     loadProjects() {
-      AluraDevModel.getProjects().then((projects) => {
+      AluraDevModel.getProjects(this.searchValue).then((projects) => {
         this.projects = projects;
       });
     },

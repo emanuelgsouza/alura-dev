@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { debounce } from "throttle-debounce";
 
 import BaseIcon from "@/components/BaseIcon.vue";
 
@@ -35,10 +36,42 @@ export default defineComponent({
     active: false,
   }),
 
+  watch: {
+    $route() {
+      if (!this.$route.meta.search) {
+        this.search = "";
+        return;
+      }
+
+      this.search = this.$route.query.search as string;
+    },
+  },
+
   methods: {
     handleToggleActiveMenu() {
       this.active = !this.active;
     },
+  },
+
+  mounted() {
+    this.$watch(
+      "search",
+      debounce(300, () => {
+        if (this.search.length) {
+          this.$router.push({
+            name: "Search",
+            query: {
+              search: this.search,
+            },
+          });
+          return;
+        }
+
+        this.$router.push({
+          name: "Community",
+        });
+      })
+    );
   },
 });
 </script>

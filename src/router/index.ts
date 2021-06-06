@@ -28,6 +28,15 @@ const routes: Array<RouteRecordRaw> = [
         /* webpackChunkName: "project-detail" */ "../views/ProjectDetail.vue"
       ),
   },
+  {
+    path: "/search",
+    name: "Search",
+    meta: {
+      search: true,
+    },
+    component: () =>
+      import(/* webpackChunkName: "community" */ "../views/Community.vue"),
+  },
 ];
 
 const router = createRouter({

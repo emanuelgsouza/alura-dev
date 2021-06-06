@@ -12,10 +12,20 @@ export const aluraDbStorage = localforage.createInstance({
 });
 
 export class AluraDevDB {
-  async getProjects(): Promise<IProject[]> {
+  async getProjects(search?: string): Promise<IProject[]> {
     return aluraDbStorage
       .getItem<IProject[]>(KEYS.PROJECTS)
-      .then((projects) => projects || []);
+      .then((projects) => {
+        const projectsToSearch = projects || [];
+        if (search) {
+          return projectsToSearch.filter((project) => {
+            const searchValue = search.toLowerCase();
+            return project.name.toLowerCase().indexOf(searchValue) !== -1;
+          });
+        }
+
+        return projectsToSearch;
+      });
   }
 
   async getProject(id: string): Promise<IProject> {
